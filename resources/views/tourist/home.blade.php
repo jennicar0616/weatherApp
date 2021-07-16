@@ -13,14 +13,25 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var baseUrl = "{{ url('/tourist/weather') }}";
+        loadInitial(baseUrl);
         $(document).on('click', 'a.city', function(e){
             e.preventDefault();
             var cityId = $(this).attr('id');
             $.get(baseUrl + '/' + cityId).then(function(data){
                 $('#weatherDetails').html(data);
+                $('body').removeClass('nav-open');
             }, function(){
 
             });
         })
+
+        function loadInitial(baseUrl){
+          var cityId = '1850147';
+          $.get(baseUrl + '/' + cityId).then(function(data){
+                $('#weatherDetails').html(data);
+            }, function(){
+
+          });
+        }
     });
 </script>

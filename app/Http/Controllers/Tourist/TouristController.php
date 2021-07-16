@@ -12,13 +12,17 @@ class TouristController extends Controller
         echo "hello";
     }
     /**
-     * Display home page
+     * Display home layout
     */
-    public function home(Request $request)
+    public function home()
     {
         return view('tourist/home');
     }
 
+     /**
+     * Display weather and city info
+     * @param int $cityId
+    */
     public function weather($cityId)
     {
         $weather = $this->getWeather($cityId);
@@ -35,7 +39,9 @@ class TouristController extends Controller
     }
 
     /**
-     * get weather details
+     * get weather details via OpenWeather API
+     * @param int $cityId
+     * @return object
     */
     public function getWeather($cityId)
     {
@@ -47,6 +53,11 @@ class TouristController extends Controller
         return $this->curlEvent($apiUrl);
     }
 
+    /**
+     * get weather details via FourSquare API
+     * @param string $cityName
+     * @return object
+    */
     public function getCityDetails($cityName)
     {
         $clientId = 'ZQLDGJOC4RIJRS0G2ISW4M2HVJPNIZ2XPQR4AF05CSURQFS3';
@@ -57,20 +68,11 @@ class TouristController extends Controller
         return $this->curlEvent($apiUrl);
     }
 
-     public function getVenueDetails($venueId)
-    {
-        $clientId = 'ZQLDGJOC4RIJRS0G2ISW4M2HVJPNIZ2XPQR4AF05CSURQFS3';
-        $clientSecret = 'VNLTXMTPYLFNGE0QPZSNDSTS3TDFXNLCYATCFWRQQQ24MCJT';
-        $version = date('Ymd');
-        $apiUrl = 'https://api.foursquare.com/v2/venues/'.$venueId.'/photos?client_id='.$clientId.'&client_secret='.$clientSecret.'&v='.$version;
-
-        $response = $this->curlEvent($apiUrl);
-        dd($response);
-
-        $imgUrl = $response->response->photos->items[0]->prefix.'240x240'.$response->response->photos->items[0]->suffix;
-        return $imgUrl;
-    }
-
+    /**
+     * curl event
+     * @param string $apiUrl
+     * @return object
+    */
     private function curlEvent($apiUrl){
         $ch = curl_init();
 

@@ -23,6 +23,5 @@ Route::group(['prefix' => 'tourist', 'namespace' => 'App\Http\Controllers\Touris
     Route::get('/','TouristController@index')->name('tourist.index');
     Route::get('/home','TouristController@home')->name('tourist.home');
     Route::get('/weather/{id?}','TouristController@weather')->name('tourist.weather');
-    Route::get('/venue/{id?}','TouristController@getVenueDetails')->name('tourist.venue');
 });
 
